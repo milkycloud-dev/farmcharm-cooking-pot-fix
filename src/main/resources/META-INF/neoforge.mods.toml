@@ -1,0 +1,40 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="notebuns_farmcharm_fix"
+version="1.0.0"
+displayName="FarmCharm Cooking Pot Fix"
+authors="NoteBuns"
+description='''
+Unofficial MIT fix for [Let's Do] Farm & Charm Cooking Pot:
+empty glass bottles / cups / bowls in the container slot were not consumed (duplication).
+
+Upstream issue: https://github.com/Let-s-Do-Collection/Let-s-Do-Collection/issues/1073
+Original mod: https://modrinth.com/mod/lets-do-farm-charm
+'''
+
+[[mixins]]
+config="notebuns_farmcharm_fix.mixins.json"
+
+[[dependencies.notebuns_farmcharm_fix]]
+modId="neoforge"
+type="required"
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.notebuns_farmcharm_fix]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.notebuns_farmcharm_fix]]
+modId="farm_and_charm"
+type="required"
+versionRange="[1.1,)"
+ordering="AFTER"
+side="BOTH"

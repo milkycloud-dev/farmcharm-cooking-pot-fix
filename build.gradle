@@ -1,0 +1,97 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.107'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    gradleVersion = '8.12.1'
+}
+
+group = 'ru.notebuns'
+version = '1.0.0'
+
+base {
+    archivesName = 'farmcharm-cooking-pot-fix'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = "21.1.172"
+
+    mods {
+        notebuns_farmcharm_fix {
+            sourceSet sourceSets.main
+        }
+    }
+
+    parchment {
+        mappingsVersion = "2024.11.17"
+        minecraftVersion = "1.21.1"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def farmCharmJar = layout.projectDirectory.file('libs/letsdo-farm_and_charm-neoforge-1.1.22.jar')
+
+tasks.register('downloadFarmCharm') {
+    description = 'Download Farm & Charm NeoForge 1.1.22 from Modrinth for compileOnly'
+    group = 'build setup'
+    outputs.file(farmCharmJar)
+    doLast {
+        def libsDir = farmCharmJar.asFile.parentFile
+        libsDir.mkdirs()
+        if (farmCharmJar.asFile.exists() && farmCharmJar.asFile.length() > 0) {
+            logger.lifecycle("Farm & Charm jar already present: ${farmCharmJar.asFile}")
+            return
+        }
+        // Modrinth project: lets-do-farm-charm (HJetCzWo), version 1.1.22 NeoForge
+        def api = 'https://api.modrinth.com/v2/project/HJetCzWo/version?game_versions=%5B%221.21.1%22%5D&loaders=%5B%22neoforge%22%5D'
+        def versions = new groovy.json.JsonSlurper().parse(new URI(api).toURL())
+        def match = versions.find { it.version_number == '1.1.22' }
+        if (match == null) {
+            match = versions.find { it.version_number?.startsWith('1.1.22') }
+        }
+        if (match == null) {
+            throw new GradleException("Could not find Farm & Charm 1.1.22 NeoForge on Modrinth")
+        }
+        def file = match.files.find { it.filename?.endsWith('.jar') && !it.filename?.contains('sources') }
+        if (file == null) {
+            throw new GradleException("No primary jar in Modrinth version ${match.version_number}")
+        }
+        logger.lifecycle("Downloading ${file.filename} from Modrinth...")
+        new URI(file.url).toURL().withInputStream { input ->
+            farmCharmJar.asFile.withOutputStream { output -> output << input }
+        }
+        logger.lifecycle("Saved ${farmCharmJar.asFile} (${farmCharmJar.asFile.length()} bytes)")
+    }
+}
+
+dependencies {
+    compileOnly files(farmCharmJar)
+}
+
+tasks.named('compileJava').configure {
+    dependsOn('downloadFarmCharm')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title'     : 'farmcharm-cooking-pot-fix',
+                'Specification-Vendor'    : 'NoteBuns',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.version,
+                'Implementation-Vendor'   : 'NoteBuns',
+                'Implementation-License'  : 'MIT',
+        ])
+    }
+}
