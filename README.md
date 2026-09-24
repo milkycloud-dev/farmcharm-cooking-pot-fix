@@ -32,15 +32,15 @@ At the same time:
 1. **Water bottles** used as ingredients correctly return empty glass bottles via craft remainder.
 2. Finished drinks (tea, etc.) return empty bottles/cups again when crafted with or drunk.
 
-**Net result:** empty glass bottles / cups increase every cook cycle — an economy / duplication exploit.
+**Net result:** empty glass bottles / cups increase every cook cycle. That is an economy / duplication exploit.
 
 ### Affected recipes (examples)
 
 Under `data/farm_and_charm/recipe/pot_cooking/`:
 
-- `nettle_tea.json` — `container: minecraft:glass_bottle`
-- `ribwort_tea.json` — same
-- `strawberry_tea.json` — same
+- `nettle_tea.json`: `container: minecraft:glass_bottle`
+- `ribwort_tea.json`: same
+- `strawberry_tea.json`: same
 - Soup recipes using `minecraft:bowl` hit the same code path
 
 Upstream source (branch `1.21.1`):
@@ -60,13 +60,13 @@ After a successful Cooking Pot craft (`craft` method **TAIL**), if:
 - the recipe requires a container, and
 - slot 6 still holds that exact empty container item,
 
-…the stack is **shrunk by 1**.
+...the stack is **shrunk by 1**.
 
 That closes the hole for bottles/cups/bowls without changing water-bottle ingredient remainder behavior.
 
 ---
 
-## Links — original mod
+## Links: original mod
 
 - Modrinth: https://modrinth.com/mod/lets-do-farm-charm  
 - CurseForge: https://www.curseforge.com/minecraft/mc-mods/lets-do-farm-charm  
@@ -108,6 +108,6 @@ Farm & Charm is downloaded automatically from Modrinth into `libs/` for `compile
 
 ## License
 
-[MIT](LICENSE) — free to use, modify, and redistribute.
+[MIT](LICENSE): free to use, modify, and redistribute.
 
 Third-party: Minecraft, NeoForge, and Farm & Charm belong to their respective owners.
