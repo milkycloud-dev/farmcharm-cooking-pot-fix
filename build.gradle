@@ -7,8 +7,8 @@ tasks.named('wrapper', Wrapper).configure {
     gradleVersion = '8.12.1'
 }
 
-group = 'ru.notebuns'
-version = '1.0.0'
+group = 'io.github.milkycloud-dev'
+version = '1.0.1'
 
 base {
     archivesName = 'farmcharm-cooking-pot-fix'
@@ -87,11 +87,11 @@ tasks.named('jar', Jar).configure {
     manifest {
         attributes([
                 'Specification-Title'     : 'farmcharm-cooking-pot-fix',
-                'Specification-Vendor'    : 'NoteBuns',
+                'Specification-Vendor'    : 'milkycloud-dev',
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.version,
-                'Implementation-Vendor'   : 'NoteBuns',
-                'Implementation-License'  : 'MIT',
+                'Implementation-Vendor'   : 'milkycloud-dev',
+                'Implementation-License'  : 'All Rights Reserved',
         ])
     }
 }

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Farm & Charm 1.1.22 bug: CookingPotBlockEntity.craft only shrinks the container slot
  * when the container item has a craftingRemainingItem. Empty glass bottles / bowls / cups
  * have none, so they are never consumed while water-bottle ingredients still return empties
- * and finished drinks return containers again → net dupe.
+ * and finished drinks return containers again: a net dupe.
  *
  * Fix: after a successful craft, if a required empty container is still in slot 6, consume it.
  */

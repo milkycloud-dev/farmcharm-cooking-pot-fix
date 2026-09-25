@@ -11,6 +11,6 @@ public final class NoteBunsFarmCharmFix {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public NoteBunsFarmCharmFix(IEventBus modBus) {
-        LOGGER.info("NoteBuns FarmCharm Fix loaded — Cooking Pot empty-container consume patch active");
+        LOGGER.info("FarmCharm Cooking Pot Fix loaded, Cooking Pot empty-container consume patch active");
     }
 }
